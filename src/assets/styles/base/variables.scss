@@ -1,0 +1,57 @@
+$color-black: #1b1b1b;
+$color-white: #ffffff;
+
+$color-gunmetal: #30343c;
+$color-cultured: #EBF0F1;
+$color-gainsboro: #D5DBDC;
+
+$color-celadon-blue: #1577a5;
+$color-fire-opal: #de6051;
+$color-green-pantone: #0fb752;
+$color-mustard: #ffdf44;
+
+$color-primary: $color-celadon-blue;
+$color-secondary: $color-fire-opal;
+$color-third: $color-green-pantone;
+
+$color-success: $color-green-pantone;
+$color-warning: $color-mustard;
+$color-error: $color-fire-opal;
+
+$color-link: $color-celadon-blue;
+
+// Font Family
+$font-primary: 'Raleway';
+$font-family: $font-primary, 'Helvetica', 'Arial', 'sans-serif';
+
+// Font Weights
+$light: 300;
+$regular: 400;
+$bold: 700;
+
+$font-xxs: rem(12);
+$font-xs: rem(14);
+$font-sm: rem(16);
+$font-md: rem(18);
+$font-lg: rem(24);
+$font-xl: rem(36);
+$font-xxl: rem(40);
+
+$line-xs: rem(16);
+$line-sm: rem(20);
+$line-md: rem(22);
+$line-lg: rem(28);
+$line-xl: rem(40);
+$line-xxl: rem(46);
+
+$margin-sm: rem(15);
+$margin-md: rem(30);
+$margin-lg: rem(45);
+$margin-xl: rem(60);
+
+// Breakpoints
+$phone-sm: 576px;
+$tablet-md: 768px;
+$desktop-lg: 992px;
+$desktop-xl: 1200px;
+$desktop-xxl: 1600px;

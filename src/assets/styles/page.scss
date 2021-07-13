@@ -1,0 +1,16 @@
+.page-section {
+  @extend %flex-center;
+  flex-direction: column;
+  .page-header {
+    text-align: center;
+    padding-top: rem(40);
+  }
+  .page-content {
+    text-align: center;
+    padding-top: rem(40);
+  }
+  .page-footer {
+    text-align: center;
+    padding-top: rem(40);
+  }
+}

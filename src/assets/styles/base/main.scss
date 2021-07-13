@@ -1,0 +1,45 @@
+*,
+*::before,
+*::after {
+  outline: 0;
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+html,
+body {
+  background: $color-gunmetal;
+  font-family: $font-family;
+  font-size: 16px;
+  font-weight: $regular;
+  color: $color-white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  font-size: $font-sm;
+  line-height: $line-sm;
+}
+
+a {
+  font-size: $font-sm;
+  font-weight: $regular;
+  text-decoration: underline;
+  cursor: pointer;
+  color: $color-link;
+}
+
+img {
+  max-width: 100%;
+}
+
+button {
+  cursor: pointer
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+

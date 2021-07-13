@@ -1,0 +1,60 @@
+.text-bold {
+  font-weight: $bold;
+}
+
+@for $i from 1 through 10 {
+  .pd-#{$i} {
+    padding: #{rem(1)} * $i;
+  }
+  .mg-#{$i} {
+    margin: #{rem(1)} * $i;
+  }
+  .pdt-#{$i} {
+    padding-top: #{rem(1)} * $i;
+  }
+  .mgt-#{$i} {
+    margin-top: #{rem(1)} * $i;
+  }
+  .pdr-#{$i} {
+    padding-right: #{rem(1)} * $i;
+  }
+  .mgr-#{$i} {
+    margin-right: #{rem(1)} * $i;
+  }
+  .pdb-#{$i} {
+    padding-bottom: #{rem(1)} * $i;
+  }
+  .mgb-#{$i} {
+    margin-bottom: #{rem(1)} * $i;
+  }
+  .pdl-#{$i} {
+    padding-left: #{rem(1)} * $i;
+  }
+  .mgl-#{$i} {
+    margin-left: #{rem(1)} * $i;
+  }
+}
+
+.overlay-loading {
+  @extend %flex-center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba($color-black, 0.3);
+  color: $color-white;
+  font-size: $font-md;
+  font-weight: $bold;
+  text-align: center;
+  z-index: 1000;
+  &::before {
+    content: "";
+    border: rem(12) solid $color-gainsboro;
+    border-top: rem(12) solid $color-primary;
+    border-radius: 50%;
+    width: rem(120);
+    height: rem(120);
+    animation: spin 1.5s linear infinite;
+  }
+}

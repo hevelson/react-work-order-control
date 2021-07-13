@@ -1,0 +1,27 @@
+.field-box {
+  display: flex;
+  flex-direction: column;
+  label {
+    font-size: $font-xs;
+    color: $color-white;
+    font-weight: $bold;
+    margin-bottom: rem(4);
+  }
+  fieldset {
+    display: flex;
+    gap: rem(16);
+    border: none;
+  }
+}
+
+.form-control {
+  background-color: $color-gunmetal;
+  height: rem(36);
+  font-size: $font-xs;
+  color: $color-white;
+  padding: rem(5) rem(10);
+  border: none;
+  &::placeholder {
+    color: $color-white;
+  }
+}

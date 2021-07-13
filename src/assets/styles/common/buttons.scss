@@ -1,0 +1,29 @@
+.btn {
+  display: block;
+  padding: rem(10) rem(20);
+  width: fit-content;
+  min-width: rem(130);
+  background-color: transparent;
+  color: $color-white;
+  border: none;
+  &:hover,
+  &:active {
+    background-color: darken($color-gunmetal, 5%);
+  }
+}
+.btn-primary {
+  @extend .btn;
+  background-color: $color-primary;
+  &:hover,
+  &:active {
+    background-color: darken($color-primary, 5%);
+  }
+}
+.btn-secondary {
+  @extend .btn;
+  background-color: $color-secondary;
+  &:hover,
+  &:active {
+    background-color: darken($color-secondary, 5%);
+  }
+}
