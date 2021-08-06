@@ -1,0 +1,31 @@
+.striped-table {
+  display: table;
+  width: 100%;
+  thead {
+    tr {
+      th, td {
+        height: rem(40);
+        text-transform: uppercase;
+        font-size: $font-xs;
+        font-weight: $bold;
+        padding: rem(5) rem(10);
+      }
+    }
+  }
+  tr {
+    &:nth-child(odd) {
+      th, td {
+        // background-color: $color-prussian-blue;
+        background-color: $color-davys-grey;
+      }
+    }
+    th, td {
+      // background-color: $color-indigo-dye;
+      background-color: $color-slate-grey;
+      min-height: rem(40);
+      font-size: $font-xs;
+      text-align: left;
+      padding: rem(8) rem(10);
+    }
+  }
+}
