@@ -1,6 +1,5 @@
 import React from 'react';
 import IWorkOrder from '../../interfaces/IWorkOrder';
-import PageFooter from '../../common/PageFooter';
 
 const Orders = (): JSX.Element => {
   const ordersExample: IWorkOrder = {
@@ -66,7 +65,7 @@ const Orders = (): JSX.Element => {
       } = ordersExample;
 
       workOrderRows.push(
-        <tr>
+        <tr key={i}>
           <td>{orderNumber}</td>
           <td>{createdAt.toLocaleString()}</td>
           <td>{name}</td>
@@ -93,13 +92,12 @@ const Orders = (): JSX.Element => {
   };
 
   return (
-    <section className="page-section">
+    <section className="page-section page-work-order-list">
       <header className="page-header">
-        <h1>Ordens de serviço</h1>
+        <h1 className="page-title">Aparelhos em manutenção</h1>
       </header>
       <div className="page-content">
-        <p>Listagem de ordens de serviço</p>
-        <table className="work-orders-list">
+        <table className="striped-table">
           <thead>
             <tr>
               <td>OS</td>
@@ -120,7 +118,6 @@ const Orders = (): JSX.Element => {
           <tbody>{renderWorkOrdersRows()}</tbody>
         </table>
       </div>
-      <PageFooter />
     </section>
   );
 };
