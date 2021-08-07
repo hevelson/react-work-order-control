@@ -1,4 +1,4 @@
-.field-box {
+.form-group {
   display: flex;
   flex-direction: column;
   label {
@@ -15,10 +15,10 @@
 }
 
 .form-control {
-  background-color: $color-gunmetal;
+  background-color: $color-gainsboro;
   height: rem(36);
   font-size: $font-xs;
-  color: $color-white;
+  color: $color-black;
   padding: rem(5) rem(10);
   border: none;
   &::placeholder {

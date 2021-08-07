@@ -1,0 +1,22 @@
+.section-work-order-form {
+  padding: rem(10);
+  .work-order-form {
+    display: flex;
+    gap: rem(10);
+    .fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: rem(10);
+      width: calc(100% - #{rem(250)});
+      .form-group {
+        width: rem(150);
+        &:first-child {
+          width: rem(200);
+        }
+      }
+    }
+    .order-info {
+      width: rem(240);
+    }
+  }
+}

@@ -9,6 +9,9 @@
       font-size: $font-sm;
       padding-left: rem(10);
     }
+    .actions {
+      margin-left: auto;
+    }
   }
   .page-content {
     @extend %panel-content-pading;
