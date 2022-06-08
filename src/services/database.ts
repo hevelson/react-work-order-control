@@ -1,5 +1,13 @@
 import PouchDB from 'pouchdb-browser';
 
-const db = new PouchDB('work_orders');
+const orders = new PouchDB('work_orders');
+const brands = new PouchDB('device_brands');
+const models = new PouchDB('device_models');
+const devices = new PouchDB('device_types');
 
-export default db;
+export default {
+  orders,
+  brands,
+  models,
+  devices,
+};
