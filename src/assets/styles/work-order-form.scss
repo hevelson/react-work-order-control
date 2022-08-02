@@ -1,8 +1,14 @@
 .section-work-order-form {
   padding: rem(10);
+  height: rem(500);
   .work-order-form {
+    height: calc(100% - #{rem(30)});
     display: flex;
-    gap: rem(10);
+    flex-direction: column;
+    .form-content {
+      display: flex;
+      gap: rem(10);
+    }
     .fields {
       display: flex;
       flex-wrap: wrap;
@@ -17,6 +23,13 @@
     }
     .order-info {
       width: rem(240);
+    }
+    footer {
+      margin-top: rem(20);
+      display: flex;
+      justify-content: flex-end;
+      margin-top: auto;
+      width: 100%;
     }
   }
 }

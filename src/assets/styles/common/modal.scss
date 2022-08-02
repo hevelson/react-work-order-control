@@ -15,8 +15,10 @@
 .system-modal-default {
   position: relative;
   display: block;
-  width: rem(800);
+  min-width: rem(800);
+  width: 60vw;
   max-width: rem(1600);
+  min-height: rem(500);
   background-color: $color-slate-grey;
   border-radius: rem(5);
   margin: rem(100) auto rem(50);

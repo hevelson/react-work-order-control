@@ -5,9 +5,10 @@
   min-width: rem(130);
   background-color: transparent;
   color: $color-white;
-  border: none;
+  border: 2px solid transparent;
   &:hover,
-  &:active {
+  &:active,
+  &:focus {
     background-color: darken($color-gunmetal, 5%);
   }
 }
@@ -15,7 +16,8 @@
   @extend .btn;
   background-color: $color-primary;
   &:hover,
-  &:active {
+  &:active,
+  &:focus {
     background-color: darken($color-primary, 5%);
   }
 }
@@ -23,7 +25,12 @@
   @extend .btn;
   background-color: $color-secondary;
   &:hover,
-  &:active {
+  &:active,
+  &:focus {
     background-color: darken($color-secondary, 5%);
   }
+}
+.btn-transparent {
+  @extend .btn;
+  border-color: $color-primary;
 }
