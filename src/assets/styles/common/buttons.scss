@@ -34,3 +34,13 @@
   @extend .btn;
   border-color: $color-primary;
 }
+.btn-input-group {
+  @extend .btn;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: rem(38);
+  width: rem(38);
+  height: rem(38);
+  padding: rem(5) rem(5);
+}

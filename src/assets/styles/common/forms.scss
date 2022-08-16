@@ -25,3 +25,13 @@
     color: $color-white;
   }
 }
+
+.form-select {
+  display: block;
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  justify-content: flex-start;
+}
