@@ -8,6 +8,8 @@ import SystemModal from '../../common/SystemModal';
 import ModalBrand from './modal-brand';
 import ModalDevice from './modal-device';
 import initialOrderForm from '../../constants/initial-order-form';
+import { setOrder } from '../../services/models/orders';
+import { getAllClients } from '../../services/models/clients';
 
 interface IProps {
   modalIsOpen: boolean;
@@ -35,7 +37,7 @@ const loadBrands = async (inputValue: string) => {
 
 const loadDevices = async (inputValue: string) => {
   const allDevicesList = await getAllDevices();
-  const brandsList = allDevicesList.rows.map(device => {
+  const devicesList = allDevicesList.rows.map(device => {
     if (device.doc) {
       return {
         label: device.doc.name,
@@ -49,7 +51,33 @@ const loadDevices = async (inputValue: string) => {
     };
   });
 
-  return brandsList.filter(brand => brand.label.toLowerCase().includes(inputValue.toLowerCase()));
+  return devicesList.filter(device => device.label.toLowerCase().includes(inputValue.toLowerCase()));
+};
+
+const loadClients = async (inputValue: string) => {
+  const allClientsList = await getAllClients();
+  const clientsList = allClientsList.rows.map(client => {
+    if (client.doc) {
+      return {
+        label: client.doc.name,
+        value: client.doc._id,
+      };
+    }
+
+    return {
+      label: client.key,
+      value: client.id,
+    };
+  });
+
+  return clientsList.filter(client => {
+    if (
+      client.label.toLowerCase().includes(inputValue.toLowerCase()) ||
+      client.value.toLowerCase().includes(inputValue.toLowerCase())
+    ) {
+      return true;
+    }
+  });
 };
 
 const ModalOrder = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
@@ -58,8 +86,13 @@ const ModalOrder = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
   const [orderData, setOrderData] = useState<IOrderFormData>(initialOrderForm);
 
   const onSubmit = (event: SyntheticEvent) => {
-    console.log('form submit');
     event.preventDefault();
+    try {
+      setOrder(orderData);
+      onClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,6 +105,15 @@ const ModalOrder = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
     const { deviceType } = orderData;
     if (deviceType) {
       return loadDevices(deviceType);
+    }
+
+    return { label: 'Selecione' };
+  };
+
+  const getClientValue = async () => {
+    const { clientId } = orderData;
+    if (clientId) {
+      return loadClients(clientId);
     }
 
     return { label: 'Selecione' };
@@ -90,22 +132,47 @@ const ModalOrder = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
           <div className="form-content">
             <div className="fields">
               <div className="form-group">
+                <label htmlFor="aparelho">Cliente</label>
+                <div className="input-group">
+                  <AsyncSelect defaultOptions loadOptions={loadClients} className="form-select" />
+                  <button
+                    type="button"
+                    onClick={() => setShowModalDevice(true)}
+                    className="btn-input-group btn-primary">
+                    +
+                  </button>
+                </div>
+              </div>
+              <div className="form-group">
                 <label htmlFor="aparelho">Aparelho</label>
-                <AsyncSelect value={getDeviceValue()} defaultOptions loadOptions={loadDevices} />
-                <button type="button" onClick={() => setShowModalDevice(true)}>
-                  +
-                </button>
+                <div className="input-group">
+                  <AsyncSelect
+                    value={getDeviceValue()}
+                    defaultOptions
+                    loadOptions={loadDevices}
+                    className="form-select"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowModalDevice(true)}
+                    className="btn-input-group btn-primary">
+                    +
+                  </button>
+                </div>
               </div>
               <div className="form-group">
                 <label htmlFor="marca">Marca</label>
-                <AsyncSelect
-                  value={orderData.brand || { label: 'Selecione...' }}
-                  defaultOptions
-                  loadOptions={loadBrands}
-                />
-                <button type="button" onClick={() => setShowModalBrand(true)}>
-                  +
-                </button>
+                <div className="input-group">
+                  <AsyncSelect
+                    value={orderData.brand || { label: 'Selecione...' }}
+                    defaultOptions
+                    loadOptions={loadBrands}
+                    className="form-select"
+                  />
+                  <button type="button" onClick={() => setShowModalBrand(true)} className="btn-input-group btn-primary">
+                    +
+                  </button>
+                </div>
               </div>
               <div className="form-group">
                 <label htmlFor="modelo">Modelo</label>
