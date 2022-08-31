@@ -32,6 +32,13 @@
     width: rem(26);
     height: rem(26);
   }
+  footer {
+    margin-top: rem(20);
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+    width: 100%;
+  }
 }
 
 .modal-content {

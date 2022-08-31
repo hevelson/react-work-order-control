@@ -1,0 +1,20 @@
+.section-work-order-form {
+  .client-form {
+    height: calc(100% - #{rem(30)});
+    display: flex;
+    flex-direction: column;
+    .form-content {
+      display: flex;
+      gap: rem(10);
+    }
+    .fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: rem(10);
+      width: 100%;
+      .form-group {
+        width: calc(33% - #{rem(3)});;
+      }
+    }
+  }
+}

@@ -15,21 +15,18 @@
       gap: rem(10);
       width: calc(100% - #{rem(250)});
       .form-group {
-        width: rem(200);
-        &:first-child {
-          width: rem(200);
+        width: calc(50% - #{rem(5)});
+        &.text-area {
+          width: 100%;
+          textarea {
+            height: rem(180);
+            resize: none;
+          }
         }
       }
     }
     .order-info {
       width: rem(240);
-    }
-    footer {
-      margin-top: rem(20);
-      display: flex;
-      justify-content: flex-end;
-      margin-top: auto;
-      width: 100%;
     }
   }
 }
