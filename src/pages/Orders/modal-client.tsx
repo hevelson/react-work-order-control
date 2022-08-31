@@ -23,21 +23,21 @@ const ModalClient = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
     const { value, name } = event.target;
     setClientData({
       ...clientData,
-      [name]: value
+      [name]: value,
     });
   };
 
   const onChangePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
-    const [field, key] = name.split('.');
+    const key = name.split('.')[1];
     const { phones } = clientData;
-    const newPhones = [ ...phones ];
+    const newPhones = [...phones];
     const numberKey = parseInt(key);
     newPhones[numberKey] = value;
 
     setClientData({
       ...clientData,
-      phones: newPhones
+      phones: newPhones,
     });
   };
 
@@ -50,7 +50,7 @@ const ModalClient = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
             <FaTimes />
           </button>
         </header>
-        <form onSubmit={onSubmit} className="work-order-form">
+        <form onSubmit={onSubmit} className="work-order-form client-form">
           <div className="fields">
             <div className="form-group">
               <label htmlFor="novo_cliente_nome">Nome</label>
@@ -61,6 +61,17 @@ const ModalClient = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
                 className="form-control"
                 name="name"
                 id="novo_cliente_nome"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="novo_cliente_cep">CEP</label>
+              <input
+                type="text"
+                value={clientData.postalCode}
+                onChange={onInputChange}
+                className="form-control"
+                name="postalCode"
+                id="novo_cliente_cep"
               />
             </div>
             <div className="form-group">
@@ -155,7 +166,7 @@ const ModalClient = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
               <label htmlFor="novo_cliente_telefone_dois">Telefone (2)</label>
               <input
                 type="text"
-                value={clientData.name}
+                value={clientData.phones[1]}
                 onChange={onInputChange}
                 className="form-control"
                 name="phone.1"
@@ -164,10 +175,12 @@ const ModalClient = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
             </div>
           </div>
           <footer>
-            <button type="button" onClick={onClose}>
+            <button type="button" className="btn btn-transparent" onClick={onClose}>
               Cancelar
             </button>
-            <button type="submit">Salvar</button>
+            <button type="submit" className="btn btn-primary">
+              Salvar
+            </button>
           </footer>
         </form>
       </section>

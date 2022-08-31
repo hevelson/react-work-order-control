@@ -23,11 +23,11 @@ export interface IClientData {
 }
 
 export const getAllClients = (): Promise<PouchDB.Core.AllDocsResponse<IClientData>> => {
-  return db.orders.allDocs<IClientData>({ include_docs: true });
+  return db.clients.allDocs<IClientData>({ include_docs: true });
 };
 
 export const getClient = (clientId: string): Promise<PouchDB.Core.IdMeta & PouchDB.Core.GetMeta> => {
-  return db.orders.get(clientId);
+  return db.clients.get(clientId);
 };
 
 export const setClient = (clientData: IClientFormData): Promise<PouchDB.Core.Response> => {
@@ -36,13 +36,13 @@ export const setClient = (clientData: IClientFormData): Promise<PouchDB.Core.Res
     ...clientData,
   };
 
-  return db.orders.put(newClient);
+  return db.clients.put(newClient);
 };
 
 export const deleteClient = async (clientId: string): Promise<PouchDB.Core.Response> => {
   try {
     const client = await getClient(clientId);
-    return db.orders.remove(client);
+    return db.clients.remove(client);
   } catch (error) {
     throw error;
   }
