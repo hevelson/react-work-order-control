@@ -1,20 +1,20 @@
 import db from '../database';
 import PouchDB from 'pouchdb-browser';
+import IOrderFormData from '../../interfaces/IOrderFormData';
 
 export interface IOrderData {
   _id: string;
   clientId: string;
   code: string;
-  device: {
-    deviceType: string;
-    brand: string;
-    model: string;
-    serialNumber: string;
-  }
+  deviceType: string;
+  brand: string;
+  model: string;
+  serialNumber: string;
   orderType: string;
   status: string;
   amount: number;
   defect: string;
+  comments: string;
   createdAt: Date;
 }
 
@@ -26,13 +26,13 @@ export const getOrder = (orderId: string): Promise<PouchDB.Core.IdMeta & PouchDB
   return db.orders.get(orderId);
 };
 
-export const setOrder = (name: string): Promise<PouchDB.Core.Response> => {
-  const newdevice = {
+export const setOrder = (orderData: IOrderFormData): Promise<PouchDB.Core.Response> => {
+  const newOrder = {
     _id: new Date().toISOString(),
-    name,
+    ...orderData,
   };
 
-  return db.orders.put(newdevice);
+  return db.orders.put(newOrder);
 };
 
 export const deleteOrder = async (orderId: string): Promise<PouchDB.Core.Response> => {

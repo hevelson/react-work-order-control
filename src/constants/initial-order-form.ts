@@ -9,6 +9,7 @@ const initialOrderForm = {
   status: '',
   amount: 0,
   defect: '',
+  comments: '',
   createdAt: new Date(),
 };
 

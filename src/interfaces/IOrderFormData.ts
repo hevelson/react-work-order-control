@@ -10,5 +10,6 @@ export default interface IOrderFormData {
   status: string;
   amount: number;
   defect: string;
+  comments: string;
   createdAt: Date;
 }
