@@ -1,5 +1,5 @@
-import React, { SyntheticEvent, useState } from 'react';
-import AsyncSelect from 'react-select/async';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
+import Select from 'react-select';
 import { FaTimes } from 'react-icons/fa';
 import IOrderFormData from '../../interfaces/IOrderFormData';
 import { getAllBrands } from '../../services/models/brands';
@@ -7,6 +7,7 @@ import { getAllDevices } from '../../services/models/devices';
 import SystemModal from '../../common/SystemModal';
 import ModalBrand from './modal-brand';
 import ModalDevice from './modal-device';
+import ModalClient from './modal-client';
 import initialOrderForm from '../../constants/initial-order-form';
 import { setOrder } from '../../services/models/orders';
 import { getAllClients } from '../../services/models/clients';
@@ -16,19 +17,24 @@ interface IProps {
   onClose: () => void;
 }
 
+interface IOption {
+  value: string;
+  label: string;
+}
+
 const loadBrands = async (inputValue: string) => {
   const allBrandsList = await getAllBrands();
   const brandsList = allBrandsList.rows.map(brand => {
     if (brand.doc) {
       return {
         label: brand.doc.name,
-        value: brand.doc,
+        value: brand.doc.name,
       };
     }
 
     return {
       label: brand.key,
-      value: brand,
+      value: brand.id,
     };
   });
 
@@ -41,13 +47,13 @@ const loadDevices = async (inputValue: string) => {
     if (device.doc) {
       return {
         label: device.doc.name,
-        value: device.doc,
+        value: device.doc.name,
       };
     }
 
     return {
       label: device.key,
-      value: device,
+      value: device.id,
     };
   });
 
@@ -83,7 +89,40 @@ const loadClients = async (inputValue: string) => {
 const ModalOrder = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
   const [showModalBrand, setShowModalBrand] = useState(false);
   const [showModalDevice, setShowModalDevice] = useState(false);
+  const [showModalClient, setShowModalClient] = useState(false);
+  const [allClients, setAllClients] = useState<IOption[]>([]);
+  const [allBrands, setAllBrands] = useState<IOption[]>([]);
+  const [allDevices, setAllDevices] = useState<IOption[]>([]);
   const [orderData, setOrderData] = useState<IOrderFormData>(initialOrderForm);
+
+  useEffect(() => {
+    const getAllClients = async () => {
+      const optionList = await loadClients('');
+      setAllClients(optionList);
+    };
+
+    if (!showModalClient) {
+      getAllClients();
+    }
+
+    const getAllBrands = async () => {
+      const optionList = await loadBrands('');
+      setAllBrands(optionList);
+    };
+
+    if (!showModalClient) {
+      getAllBrands();
+    }
+
+    const getAllDevices = async () => {
+      const optionList = await loadDevices('');
+      setAllDevices(optionList);
+    };
+
+    if (!showModalClient) {
+      getAllDevices();
+    }
+  }, [showModalClient, showModalDevice, showModalBrand]);
 
   const onSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
@@ -101,22 +140,41 @@ const ModalOrder = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
     setOrderData(orderData);
   };
 
-  const getDeviceValue = () => {
-    const { deviceType } = orderData;
-    if (deviceType) {
-      return loadDevices(deviceType);
+  const onClientChange = (option: IOption | null) => {
+    if (option) {
+      const { value } = option;
+      orderData.clientId = value;
+      setOrderData({
+        ...orderData,
+        clientId: value,
+      });
     }
-
-    return { label: 'Selecione' };
   };
 
-  const getClientValue = async () => {
-    const { clientId } = orderData;
-    if (clientId) {
-      return loadClients(clientId);
+  const onBrandChange = (option: IOption | null) => {
+    if (option) {
+      const { value } = option;
+      setOrderData({
+        ...orderData,
+        brand: value,
+      });
     }
+  };
 
-    return { label: 'Selecione' };
+  const onDeviceChange = (option: IOption | null) => {
+    if (option) {
+      const { value } = option;
+      setOrderData({
+        ...orderData,
+        deviceType: value,
+      });
+    }
+  };
+
+  const onTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    orderData[name] = value;
+    setOrderData(orderData);
   };
 
   return (
@@ -132,12 +190,18 @@ const ModalOrder = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
           <div className="form-content">
             <div className="fields">
               <div className="form-group">
-                <label htmlFor="aparelho">Cliente</label>
+                <label htmlFor="cliente">Cliente</label>
                 <div className="input-group">
-                  <AsyncSelect defaultOptions loadOptions={loadClients} className="form-select" />
+                  <Select
+                    value={allClients.find(option => option.value === orderData.clientId)}
+                    options={allClients}
+                    onChange={onClientChange}
+                    className="form-select"
+                    placeholder="Selecione..."
+                  />
                   <button
                     type="button"
-                    onClick={() => setShowModalDevice(true)}
+                    onClick={() => setShowModalClient(true)}
                     className="btn-input-group btn-primary">
                     +
                   </button>
@@ -146,11 +210,12 @@ const ModalOrder = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
               <div className="form-group">
                 <label htmlFor="aparelho">Aparelho</label>
                 <div className="input-group">
-                  <AsyncSelect
-                    value={getDeviceValue()}
-                    defaultOptions
-                    loadOptions={loadDevices}
+                  <Select
+                    value={allDevices.find(option => option.value === orderData.deviceType)}
+                    options={allDevices}
+                    onChange={onDeviceChange}
                     className="form-select"
+                    placeholder="Selecione..."
                   />
                   <button
                     type="button"
@@ -163,11 +228,12 @@ const ModalOrder = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
               <div className="form-group">
                 <label htmlFor="marca">Marca</label>
                 <div className="input-group">
-                  <AsyncSelect
-                    value={orderData.brand || { label: 'Selecione...' }}
-                    defaultOptions
-                    loadOptions={loadBrands}
+                  <Select
+                    value={allBrands.find(option => option.value === orderData.brand)}
+                    options={allBrands}
+                    onChange={onBrandChange}
                     className="form-select"
+                    placeholder="Selecione..."
                   />
                   <button type="button" onClick={() => setShowModalBrand(true)} className="btn-input-group btn-primary">
                     +
@@ -181,7 +247,7 @@ const ModalOrder = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
                   className="form-control"
                   name="brand"
                   id="modelo"
-                  value={orderData.brand}
+                  value={orderData.model}
                   onChange={onInputChange}
                 />
               </div>
@@ -201,11 +267,21 @@ const ModalOrder = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
                 <input
                   type="text"
                   className="form-control"
-                  name="defeito"
+                  name="defect"
                   id="defeito"
                   value={orderData.defect}
                   onChange={onInputChange}
                 />
+              </div>
+              <div className="form-group text-area">
+                <label htmlFor="defeito">Observações</label>
+                <textarea
+                  id="observacoes"
+                  className="form-control"
+                  name="observacoes"
+                  value={orderData.comments}
+                  onChange={onTextChange}
+                  rows={5}></textarea>
               </div>
             </div>
             <div className="order-info">
@@ -254,6 +330,7 @@ const ModalOrder = ({ modalIsOpen, onClose }: IProps): JSX.Element => {
         </form>
         <ModalBrand modalIsOpen={showModalBrand} onClose={() => setShowModalBrand(false)} />
         <ModalDevice modalIsOpen={showModalDevice} onClose={() => setShowModalDevice(false)} />
+        <ModalClient modalIsOpen={showModalClient} onClose={() => setShowModalClient(false)} />
       </section>
     </SystemModal>
   );
